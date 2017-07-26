@@ -8,9 +8,9 @@
 2. 权限设置：  
 android.permission.READ_EXTERNAL_STORAGE
 
-  android.permission.WRITE_EXTERNAL_STORAGE
+    android.permission.WRITE_EXTERNAL_STORAGE
 
-  android.permission.KILL_BACKGROUND_PROCESSES
+    android.permission.KILL_BACKGROUND_PROCESSES
 
 3. Android 6.0以后的动态权限设置
 
