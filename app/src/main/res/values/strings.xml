@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">春雨改步器</string>
+    <string name="app_name">微Q改步器</string>
+    <string name="downloadurl">卓易健康下载地址：<a href="https://itunes.apple.com/us/app/yi-dong-li/id956031285?l=zh&amp;ls=1&amp;mt=8" target="_blank">IOS版</a>，<a href="http://download-erunning.yy845.com/" target="_blank">Android版</a></string>
 </resources>

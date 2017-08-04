@@ -1,29 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.colaapk.assistant.MainActivity">
+    tools:context="com.colaapk.assistant.WeiXinActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimaryDark"
-        app:popupTheme="@style/ToolbarPopupTheme">
+        android:background="@color/colorPrimaryDark">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="QQ刷步"
+            android:text="微信刷步"
             android:textColor="@android:color/white"
             android:textSize="20sp"/>
-
-
     </android.support.v7.widget.Toolbar>
 
     <TextView
@@ -39,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:text="1、请下载并安装春雨计步器\n2、请确保软件有空间读写权限\n3、建议分别修改为3200、4500、36000\n4、大数据会提示异常，最大为99998\n5、春雨计步器主要用于同步QQ数据\n6、本软件为娱乐制作，请合理使用"
+        android:text="1.安装卓易健康APP，注册、登录，绑定微信\n2.输入卓易健康ID和步数即可提交\n3.提交后即可到微信排行榜查看步数\n4.微信运动最大支持98800步,\n5、本软件为娱乐制作，请合理使用"
         android:textSize="16sp"/>
 
     <TextView
@@ -48,18 +44,30 @@
         />
 
     <EditText
-        android:id="@+id/et"
+        android:id="@+id/id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:gravity="center_vertical|left"
+        android:hint="请输入卓易ID"
+        android:inputType="text"
+        android:padding="5dp"
+        android:textSize="24sp"/>
+
+    <EditText
+        android:id="@+id/num"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|left"
         android:hint="请输入步数,如3200"
         android:inputType="number"
+        android:padding="5dp"
         android:textSize="24sp"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="btClick"
+        android:onClick="btWXClick"
+        android:padding="20dp"
         android:text="修改步数"/>
 
     <TextView
@@ -68,4 +76,13 @@
         android:layout_weight="1"
         />
 
+    <TextView
+        android:id="@+id/download"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:padding="5dp"
+        android:text="@string/downloadurl"
+        android:textSize="20sp"
+        />
 </LinearLayout>

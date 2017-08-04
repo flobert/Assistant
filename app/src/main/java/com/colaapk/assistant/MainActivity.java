@@ -9,9 +9,18 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -29,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private static String CHUNYU_PACKAGE = "me.chunyu.Pedometer";
     private EditText mNumber;//步数
     private File mFile;
+    private Toolbar mToolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
         verifyStoragePermissions(this);
         mNumber = (EditText) findViewById(R.id.et);
         mFile = getInnerSDCardPath();
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         //Toast.makeText(this, Environment.getExternalStorageDirectory().getPath()+"111111111", Toast.LENGTH_LONG).show();
     }
 
@@ -68,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "为了能领取到部分红包，步数将修改为99998", Toast.LENGTH_SHORT).show();
                 mun = 99998 + "";
             }
+            closeKeyboard();
             String data;
             String initString = FileUtils.getString(mFile);
             String[] sourceStrArray = initString.split(",");
@@ -115,4 +130,29 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = new MenuInflater(this);
+        inflater.inflate(R.menu.top_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_wx:
+                startActivity(new Intent(MainActivity.this, WeiXinActivity.class));
+            break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void closeKeyboard() {
+        View view = getWindow().peekDecorView();
+        if (view != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
 }
