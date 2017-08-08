@@ -39,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:text="1、请下载并安装春雨计步器\n2、请确保软件有空间读写权限\n3、建议分别修改为3200、4500、36000\n4、大数据会提示异常，最大为99998\n5、春雨计步器主要用于同步QQ数据\n6、本软件为娱乐制作，请合理使用"
+        android:text="1、请安装春雨计步器\n2、请确保软件有空间读写权限\n3、大数据会提示异常，最大为99998\n4、春雨计步器主要用于同步QQ数据\n5、需要刷微信步数的请点击APP右上角\n6、本软件为娱乐制作，请合理使用"
         android:textSize="16sp"/>
 
     <TextView

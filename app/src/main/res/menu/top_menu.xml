@@ -4,6 +4,6 @@
     <item
         android:id="@+id/menu_wx"
         android:icon="@drawable/wx"
-        android:title="微信"
+        android:title="微信刷步"
         app:showAsAction="always"></item>
 </menu>

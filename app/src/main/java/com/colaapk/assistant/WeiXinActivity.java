@@ -60,6 +60,11 @@ public class WeiXinActivity extends AppCompatActivity {
         }
         if (!TextUtils.isEmpty(num)) {
             closeKeyboard();
+            if (Integer.parseInt(num) >= 9998){
+                num = 9998 + "";
+                Toast.makeText(this, "修改的数据过大，已经强制修改为9998", Toast.LENGTH_SHORT).show();
+            }
+
             getAsynHttp(id, Integer.valueOf(num));
         } else {
             Toast.makeText(this, "请输入有效步数！！！", Toast.LENGTH_SHORT).show();
@@ -68,6 +73,7 @@ public class WeiXinActivity extends AppCompatActivity {
 
 
     }
+
     private void closeKeyboard() {
         View view = getWindow().peekDecorView();
         if (view != null) {
