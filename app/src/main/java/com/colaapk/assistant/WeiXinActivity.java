@@ -39,8 +39,10 @@ public class WeiXinActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wei_xin);
+
         mToolBar = (Toolbar) findViewById(R.id.wx_toolbar);
         setSupportActionBar(mToolBar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         mToolBar.setNavigationOnClickListener(new View.OnClickListener() {
