@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -32,11 +33,22 @@ public class WeiXinActivity extends AppCompatActivity {
     private SharedPreferences mSharedPreferences;
     private OkHttpClient mOkHttpClient;
     private TextView mDownload;
+    private Toolbar mToolBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wei_xin);
+        mToolBar = (Toolbar) findViewById(R.id.wx_toolbar);
+        setSupportActionBar(mToolBar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        mToolBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WeiXinActivity.this.finish();
+            }
+        });
         mId = (EditText) findViewById(R.id.id);
         mNum = (EditText) findViewById(R.id.num);
         mDownload = (TextView) findViewById(R.id.download);
@@ -60,7 +72,7 @@ public class WeiXinActivity extends AppCompatActivity {
         }
         if (!TextUtils.isEmpty(num)) {
             closeKeyboard();
-            if (Integer.parseInt(num) >= 9998){
+            if (Integer.parseInt(num) >= 9998) {
                 num = 9998 + "";
                 Toast.makeText(this, "修改的数据过大，已经强制修改为9998", Toast.LENGTH_SHORT).show();
             }
