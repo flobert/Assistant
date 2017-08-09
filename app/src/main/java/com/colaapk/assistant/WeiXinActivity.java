@@ -74,8 +74,8 @@ public class WeiXinActivity extends AppCompatActivity {
         }
         if (!TextUtils.isEmpty(num)) {
             closeKeyboard();
-            if (Integer.parseInt(num) >= 9998) {
-                num = 9998 + "";
+            if (Integer.parseInt(num) >= 99998) {
+                num = 99998 + "";
                 Toast.makeText(this, "修改的数据过大，已经强制修改为9998", Toast.LENGTH_SHORT).show();
             }
 

@@ -36,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:text="1.安装卓易健康APP，注册、登录，绑定微信\n2.输入卓易健康ID和步数即可提交\n3.提交后即可到微信排行榜查看步数\n4.微信运动最大支持98800步,\n5、本软件为娱乐制作，请合理使用"
+        android:text="1.安装卓易健康APP，注册、登录，绑定微信\n2.输入卓易健康ID和步数即可提交\n3.提交后即可到微信排行榜查看步数\n4.微信运动最大支持99998步,\n5、本软件为娱乐制作，请合理使用"
         android:textSize="16sp"/>
 
     <TextView
