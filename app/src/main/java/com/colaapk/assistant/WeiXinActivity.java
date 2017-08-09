@@ -76,7 +76,7 @@ public class WeiXinActivity extends AppCompatActivity {
             closeKeyboard();
             if (Integer.parseInt(num) >= 99998) {
                 num = 99998 + "";
-                Toast.makeText(this, "修改的数据过大，已经强制修改为9998", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "修改的数据过大，已经强制修改为99998", Toast.LENGTH_SHORT).show();
             }
 
             getAsynHttp(id, Integer.valueOf(num));
