@@ -10,6 +10,7 @@ import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +31,7 @@ public class WeiXinActivity extends AppCompatActivity {
     public static final String ID = "ID";
     private EditText mNum;
     private EditText mId;
+    private Button mConmmit;
     private SharedPreferences mSharedPreferences;
     private OkHttpClient mOkHttpClient;
     private TextView mDownload;
@@ -39,7 +41,14 @@ public class WeiXinActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wei_xin);
+        initView();
 
+        if (mSharedPreferences != null) {
+            mId.setText(mSharedPreferences.getString(ID, "").toString());
+        }
+    }
+
+    private void initView() {
         mToolBar = (Toolbar) findViewById(R.id.wx_toolbar);
         setSupportActionBar(mToolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -53,12 +62,10 @@ public class WeiXinActivity extends AppCompatActivity {
         });
         mId = (EditText) findViewById(R.id.id);
         mNum = (EditText) findViewById(R.id.num);
+        mConmmit = (Button) findViewById(R.id.bt_wx);
         mDownload = (TextView) findViewById(R.id.download);
         mDownload.setMovementMethod(LinkMovementMethod.getInstance());
         mSharedPreferences = getSharedPreferences(USERS, MODE_PRIVATE);
-        if (mSharedPreferences != null) {
-            mId.setText(mSharedPreferences.getString(ID, "").toString());
-        }
     }
 
     public void btWXClick(View view) {
@@ -78,8 +85,36 @@ public class WeiXinActivity extends AppCompatActivity {
                 num = 99998 + "";
                 Toast.makeText(this, "修改的数据过大，已经强制修改为99998", Toast.LENGTH_SHORT).show();
             }
+            mConmmit.setClickable(false);
+            mConmmit.setText("正在提交数据");
+            String getUrl = "http://weixin.droi.com/health/phone/index.php/SendWechat/send?accountId=" + id + "&jibuNuber=" + num;
+            GetAsynHttpUtil.newGetAsynHttpUtil().get(getUrl, new GetHttpListener() {
+                @Override
+                public void onError() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mConmmit.setClickable(true);
+                            mConmmit.setText("修改步数");
+                            ToastUtils.showToast(WeiXinActivity.this, "数据提交失败，请重新提交");
+                        }
+                    });
+                }
 
-            getAsynHttp(id, Integer.valueOf(num));
+                @Override
+                public void onSuccess(final String json) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Gson gson = new Gson();
+                            ResultInfo info = gson.fromJson(json, ResultInfo.class);
+                            mConmmit.setClickable(true);
+                            mConmmit.setText("修改步数 ");
+                            ToastUtils.showToast(WeiXinActivity.this, info.getMesssage());
+                        }
+                    });
+                }
+            });
         } else {
             Toast.makeText(this, "请输入有效步数！！！", Toast.LENGTH_SHORT).show();
             return;
@@ -96,38 +131,4 @@ public class WeiXinActivity extends AppCompatActivity {
         }
     }
 
-    private void getAsynHttp(String id, int num) {
-        mOkHttpClient = new OkHttpClient();
-        Request.Builder requestBuilder = new Request.Builder().url("http://weixin.droi.com/health/phone/index.php/SendWechat/send?accountId=" + id + "&jibuNuber=" + num);
-        //可以省略，默认是GET请求
-        requestBuilder.method("GET", null);
-        Request request = requestBuilder.build();
-        Call mcall = mOkHttpClient.newCall(request);
-        mcall.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(WeiXinActivity.this, "提交数据失败！！！", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                final String str = response.body().string();
-                Log.i("WeiXinActivity", "onResponse: " + str);
-                Gson gson = new Gson();
-                final Result r = gson.fromJson(str, Result.class);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(WeiXinActivity.this, r.getMesssage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
-    }
 }

@@ -65,6 +65,7 @@
         android:textSize="24sp"/>
 
     <Button
+        android:id="@+id/bt_wx"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="btWXClick"

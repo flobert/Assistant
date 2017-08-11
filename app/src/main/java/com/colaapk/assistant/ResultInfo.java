@@ -4,7 +4,7 @@ package com.colaapk.assistant;
  * Created by LLY on 2017/8/4.
  */
 
-public class Result {
+public class ResultInfo {
 
     /**
      * errcode : 0
