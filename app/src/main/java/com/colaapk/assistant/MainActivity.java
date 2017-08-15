@@ -26,6 +26,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
+
+import org.json.JSONException;
 
 import java.io.File;
 
@@ -198,6 +201,8 @@ public class MainActivity extends AppCompatActivity {
         String getUrl = "http://ouif47kta.bkt.clouddn.com/info/info";
         final PackageManager packageManager = getPackageManager();
         GetAsynHttpUtil.newGetAsynHttpUtil().get(getUrl, new GetHttpListener() {
+
+
             @Override
             public void onError() {
                 runOnUiThread(new Runnable() {
@@ -212,8 +217,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String json) {
                 Log.i("MainActivity", "json: " + json);
-                Gson gson = new Gson();
-                final UpdateInfo updateInfo = gson.fromJson(json, UpdateInfo.class);
+                final UpdateInfo updateInfo;
+                try {
+                    Gson gson = new Gson();
+                    updateInfo = gson.fromJson(json, UpdateInfo.class);
+                } catch (JsonParseException e) {
+                    Log.i("MainActivity", "JsonParseException: " + e.toString());
+                    return;
+                }
                 try {
                     PackageInfo info = packageManager.getPackageInfo(getPackageName(), 0);
                     String versionCode = String.valueOf(info.versionCode);
