@@ -16,14 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
 
-import java.io.IOException;
-
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class WeiXinActivity extends AppCompatActivity {
 
@@ -76,14 +71,14 @@ public class WeiXinActivity extends AppCompatActivity {
             editor.putString(ID, id);
             editor.apply();
         } else {
-            Toast.makeText(this, "用户ID不能为空！！！", Toast.LENGTH_SHORT).show();
+            ToastUtils.show(this, "用户ID不能为空！！！");
             return;
         }
         if (!TextUtils.isEmpty(num)) {
             closeKeyboard();
             if (Integer.parseInt(num) >= 99998) {
                 num = 99998 + "";
-                Toast.makeText(this, "修改的数据过大，已经强制修改为99998", Toast.LENGTH_SHORT).show();
+                ToastUtils.show(this, "修改的数据过大，已经强制修改为99998");
             }
             mConmmit.setClickable(false);
             mConmmit.setText("正在提交数据");
@@ -96,7 +91,7 @@ public class WeiXinActivity extends AppCompatActivity {
                         public void run() {
                             mConmmit.setClickable(true);
                             mConmmit.setText("修改步数");
-                            ToastUtils.showToast(WeiXinActivity.this, "数据提交失败，请重新提交");
+                            ToastUtils.show(WeiXinActivity.this, "数据提交失败，请重新提交");
                         }
                     });
                 }
@@ -106,21 +101,25 @@ public class WeiXinActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Gson gson = new Gson();
-                            ResultInfo info = gson.fromJson(json, ResultInfo.class);
-                            mConmmit.setClickable(true);
-                            mConmmit.setText("修改步数 ");
-                            ToastUtils.showToast(WeiXinActivity.this, info.getMesssage());
+                            try {
+                                Gson gson = new Gson();
+                                ResultInfo info = gson.fromJson(json, ResultInfo.class);
+                                mConmmit.setClickable(true);
+                                mConmmit.setText("修改步数 ");
+                                ToastUtils.show(WeiXinActivity.this, info.getMesssage());
+                            } catch (JsonParseException e) {
+                                Log.i("WeiXinActivity", "error: " + e.toString());
+                                ToastUtils.show(WeiXinActivity.this, "数据解析异常，请稍后重试");
+                            }
+
                         }
                     });
                 }
             });
         } else {
-            Toast.makeText(this, "请输入有效步数！！！", Toast.LENGTH_SHORT).show();
+            ToastUtils.show(this, "请输入有效步数！！！");
             return;
         }
-
-
     }
 
     private void closeKeyboard() {

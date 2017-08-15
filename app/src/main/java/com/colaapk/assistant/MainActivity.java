@@ -3,11 +3,9 @@ package com.colaapk.assistant;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ProgressDialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -19,30 +17,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 
 import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -106,11 +91,11 @@ public class MainActivity extends AppCompatActivity {
         if (mFile != null) {
             String mun = mNumber.getText().toString();
             if (TextUtils.isEmpty(mun)) {
-                Toast.makeText(this, "请输入有效参数！！！", Toast.LENGTH_SHORT).show();
+                ToastUtils.show(this, "请输入有效参数！！！");
                 return;
             }
             if (Integer.parseInt(mun) >= 99999) {
-                Toast.makeText(this, "为了能领取到部分红包，步数将修改为99998", Toast.LENGTH_SHORT).show();
+                ToastUtils.show(this, "为了能领取到部分红包，步数将修改为99998");
                 mun = 99998 + "";
             }
             final String trueNum = mun;
@@ -134,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(MainActivity.this, "修改成功！", Toast.LENGTH_SHORT).show();
+                            ToastUtils.show(MainActivity.this, "修改成功！");
                             Intent intent = getPackageManager().getLaunchIntentForPackage(CHUNYU_PACKAGENAME);
                             //Intent intent = new Intent();
                             if (intent != null) {
@@ -143,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                                 startActivity(intent);
                             } else {
 
-                                Toast.makeText(MainActivity.this, "你还没有安装春雨计步器,无法启动应用！！！", Toast.LENGTH_SHORT).show();
+                                ToastUtils.show(MainActivity.this, "你还没有安装春雨计步器,无法启动应用！！！");
                             }
                         }
                     });
@@ -152,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
             }).start();
         } else {
 
-            Toast.makeText(MainActivity.this, "内存卡不存在或没有读写权限", Toast.LENGTH_SHORT).show();
+            ToastUtils.show(MainActivity.this, "内存卡不存在或没有读写权限");
         }
 
     }
@@ -201,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(MainActivity.this, "春雨计步器历史刷步文件已经被清除了！！！", Toast.LENGTH_SHORT).show();
+                            ToastUtils.show(MainActivity.this, "春雨计步器历史刷步文件已经被清除了！！！");
                         }
                     });
                 }
@@ -218,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        //ToastUtils.showToast(MainActivity.this,"获取更新信息失败！！！");
+                        //ToastUtils.show(MainActivity.this,"获取更新信息失败！！！");
                         Log.i("MainActivity", "获取更新信息失败!!!");
                     }
                 });
@@ -246,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        ToastUtils.showToast(MainActivity.this, "为了能更好的使用本软件请及时升级为最新版本！！！");
+                                        ToastUtils.show(MainActivity.this, "为了能更好的使用本软件请及时升级为最新版本！！！");
                                     }
                                 });
                                 dialog.setButton(DialogInterface.BUTTON_POSITIVE, "确定", new DialogInterface.OnClickListener() {
@@ -254,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int which) {
                                         //确定更新，显示更新进度
                                         mProgressDialog = new ProgressDialog(MainActivity.this);
-                                        mProgressDialog.setTitle("更新s说明");
+                                        mProgressDialog.setTitle("更新说明");
                                         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                                         mProgressDialog.setMessage(updateInfo.getInstruction());
                                         mProgressDialog.setIndeterminate(false);
@@ -293,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         mProgressDialog.dismiss();
-                                                        ToastUtils.showToast(MainActivity.this, "下载失败");
+                                                        ToastUtils.show(MainActivity.this, "下载失败");
                                                     }
                                                 });
 
