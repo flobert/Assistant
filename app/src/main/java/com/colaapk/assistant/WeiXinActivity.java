@@ -109,6 +109,8 @@ public class WeiXinActivity extends AppCompatActivity {
                                 ToastUtils.show(WeiXinActivity.this, info.getMesssage());
                             } catch (JsonParseException e) {
                                 Log.i("WeiXinActivity", "error: " + e.toString());
+                                mConmmit.setClickable(true);
+                                mConmmit.setText("修改步数 ");
                                 ToastUtils.show(WeiXinActivity.this, "数据解析异常，请稍后重试");
                             }
 
